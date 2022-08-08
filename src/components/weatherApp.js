@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import WeatherForm from "./weatherForm";
+import WeatherMainInfo from "./weatherMainInfo";
 
 export default function WeatherApp() {
   const [weather, setWeather] = useState(null);
@@ -10,7 +11,11 @@ export default function WeatherApp() {
     //2.- Cada que se renderiza algo
     //3.- Cuando se destruye el componente
   }, []);
-  //Arreglo que define las veces que se repite
+  //Arreglo que define las veces que se repite, vacio es = 1 vez
+  useEffect(() => {
+document.title = `Weather | ${weather?.location.name ?? ""}`
+//si es igual a null, regresa string vacio
+  } , [weather])
   async function loadInfo(city = "london") {
     //por defecto london
     try {
@@ -31,7 +36,7 @@ export default function WeatherApp() {
   return (
     <div>
       <WeatherForm onChangeCity={handleChangeCity} />
-      <div>{weather?.current.temp_c}</div>
+      <WeatherMainInfo weather={weather}/>
     </div>
   );
 }
